@@ -1,0 +1,231 @@
+*,*::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+} 
+
+
+
+body{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    /*  permite crear una estructura de diseño de cuadrícula (grid)*/
+    display: grid;
+    place-content: center;
+    min-height: 100vh;
+    /*para que no se muestre el contenido que se desbprda*/
+    overflow: hidden;
+    /* se utiliza para controlar si los usuarios pueden seleccionar el texto dentro de un elemento*/
+    user-select: none;
+    background: #eee;
+}
+
+main{
+  background:url(../img/iphone.webp) no-repeat center/cover;
+  /* escala la imagen para que cubra todo el contenedor*/ 
+  background-size: contain;
+  width: 320px;
+  height: 640px;
+  /* permite alinear los elementos hijos de manera eficiente incluso si su tamaño es dinamico o desconocido */
+  display: flex;
+  /*permote que la sombra se alinee donde es transparente, encambio boxshadow se alinea al contenedor */
+  filter: drop-shadow(0 0 10px rgba(0,0,0,.5));
+
+  
+}
+
+section{
+  background: #f6f6f6;
+  width: 100%;
+  border-radius: 32px;
+  display: flex;
+  gap: 24px;
+  flex-direction: column;
+  overflow: hidden;
+  /* hace que los elementos hijos se posicionen en relacion al elemento padre */
+  position: relative;
+  padding: 16px 6px;
+  margin: 24px
+}
+
+header{
+  /*logo*/
+  display: flex;
+  justify-content: center;
+
+  & img{
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.emoji-list{
+  display: grid;
+  /*para que se repitan 5 veces (5 botones en 1 fraccion de espacio)*/
+  grid-template-columns: repeat(5, 1fr);
+  /*para definir el espacio entre columnas o filas*/
+  gap: 12px; 
+  padding: 0 24px;
+  justify-content: center;
+  align-items: center;
+  
+  & button{
+    /*tecnica sprite para cargar la imagen una vez y moverla a conveniencia(para mejorar rendimiento)*/
+    background: url(../img/tinder-icons.webp) no-repeat;
+    background-position: 0px 0px;
+    background-size: 175px;
+    cursor: pointer;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    border: 0;
+    /*animacion*/
+    
+
+    &:hover{
+      scale:1.4;
+      transition: 0.3s ease;
+    }
+    &.is-big{
+      width: 48px;
+      height: 48px;
+      background-size: 250px;
+    }
+    /*se mueve la imagen a conveniencia para que cada boton tenga su logo*/
+    &.is-undo{
+      background-position: -140px;
+    }
+    &.is-remove{
+      background-position: -150px;
+    }
+    &.is-fav{
+      background-position: -50px;
+    }
+    &.is-star{
+      background-position: -70px;
+    }
+
+    
+  }
+ 
+
+}
+.cards{
+  /* esto para que las card se muevan con relacion a este*/
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+
+  /*aviso no hay mas cards*/
+  & > span{
+    display: grid;
+    place-content: center;
+    text-align: center  ;
+    color: #777;
+    font-size: 14px;
+    height: 100%;
+    z-index: -1;
+  }
+  & article{
+    /*cuando varios elementos tienen absolute, el navegador los apila en orden que aparecen, el ultimo elemento del DOM se renderiza por encima de los anteriorres*/
+    border-radius: 8px;
+    overflow: hidden;
+    position: absolute;
+    width: 100%;
+    height: 100%; 
+    /*el cursor esta en modo arrastrar*/
+    cursor: grab;
+
+
+    &.go-left, &.go-right{
+      transition: transform .3s ease, rotate .3s ease;
+    }
+
+    &.reset{
+      transition: transform .3s ease;
+      transform: translateX(0) !important;
+    }
+    &.go-left{
+      transform: translateX(-200%) rotate(-30deg) !important;
+    }
+    
+    &.go-right{
+      transform: translateX(200%) rotate(30deg) !important;
+    }
+    
+    & .choice{
+      color:black;
+      border-radius: 8px;
+      border: 4px solid;
+      z-index:9999;
+      position: absolute;
+      top: 32px;
+      right: 16px;
+      font-size: 24px;
+      font-weight: bold;
+      padding: 4px 8px;
+      /*para que el texto se vea en el centro*/
+      width: fit-content;
+      /*para que al principio no aparezca*/
+      opacity: 0;
+      will-change: opacity;
+      transition: opacity 0.1s ease; /* Transición suave para opacidad */
+      
+      
+      &.nope{
+        border-color: #f44336;
+        color: #f44336;
+        transform: rotate(30deg);
+
+      }
+      &.like{
+        border-color: #4caf50;
+        color: #4caf50;
+        transform: rotate( -30deg);
+        left: 16px;
+        }
+    }
+
+    .choice.visible {
+      opacity: 1;
+    }
+
+  
+    /*para que este en el centro*/
+    inset: 0;
+    /*para que el elemento se vea por encima de los demas*/
+    z-index: 2;
+
+    box-shadow: 0 0 10px rgba(0,0,0,.5);
+    & img{
+      /*para que la imagen ocupe todo el espacio del contenedor*/
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+   }
+
+   & h2{
+     /*se utiliza junto a display flex para alinear los elementos hijos en el eje trasnversal, de arriba hacia abajo*/
+     align-items: flex-end;
+      display: flex;
+     color: white;
+     
+     position: absolute;
+     inset: 0;
+     height: 100%;
+     width: 100%;
+     
+     padding: 16px;
+     z-index: 3;
+     /*añade degradado*/
+     background: linear-gradient(to top, #00000088 20%, transparent 40%);
+    }
+    & span{
+      margin-left: 6px;
+      font-size: 18px ;
+      /*para establecer la altura de las lineas de texto*/
+      line-height: 1.4;
+      font-weight: 400;
+    }
+  }
+}
