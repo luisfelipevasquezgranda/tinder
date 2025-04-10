@@ -1,4 +1,5 @@
 // Seleccionar los emojis y el contenedor
+
 const emojis = document.querySelectorAll(".emoji-list button");
 const container = document.querySelector(".emoji-container");
 
@@ -44,7 +45,7 @@ function handleEmojiClick(e) {
       },
     ],
     {
-      duration: 2000,
+      duration: 1000,
       easing: "cubic-bezier(.47,.48,.44,.86)", // Curva de aceleración
     }
   );

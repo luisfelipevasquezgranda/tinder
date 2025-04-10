@@ -2,6 +2,47 @@ const DECISION_THRESHOLD = 100; // distancia mínima para considerar una decisi�
 let isAnimating = false;
 let pullDeltax = 0; // distancia que la card se está moviendo
 let startX = 0; // posición inicial del mouse o dedo
+document.addEventListener("DOMContentLoaded", () => {
+  const button = document.querySelector(".is-remove");
+  if (button) {
+    button.addEventListener("click", () => {
+      // Deshabilitar el botón para evitar múltiples clics
+      button.disabled = true;
+
+      const cardsContainer = document.querySelector(".cards");
+
+      // Seleccionar el último hijo que sea un <article>
+      //array.from() convierte la colección de nodos en un array
+      // y luego se invierte el orden para buscar de abajo hacia arriba
+      // y se busca el primer elemento que sea un <article>
+      const actualCard = Array.from(cardsContainer?.children)
+        .reverse() // Invertir el orden para buscar de abajo hacia arriba
+        .find((child) => child.tagName === "ARTICLE");
+
+      if (actualCard) {
+        actualCard.style.transition = "transform 0.5s ease";
+        // Deslizar la tarjeta hacia la izquierda
+        actualCard.classList.add("go-left");
+
+        // Eliminar la tarjeta después de la animación
+        actualCard.addEventListener(
+          "transitionend",
+          () => {
+            actualCard.remove();
+          },
+          { once: true }
+        );
+      } else {
+        console.log("No hay más tarjetas disponibles.");
+      }
+
+      // Volver a habilitar el botón después de 1 segundo
+      setTimeout(() => {
+        button.disabled = false;
+      }, 500); // 1000 ms = 1 segundo
+    });
+  }
+});
 
 function startDrag(e) {
   if (isAnimating) return;
@@ -13,6 +54,7 @@ function startDrag(e) {
 
   // Posición inicial del mouse o dedo
   // si pageX no está disponible, se usa touches[0].pageX
+
   startX = e.pageX ?? (e.touches && e.touches[0]?.pageX); // Obtener posición inicial
 
   // Añadir eventos para mover y soltar
