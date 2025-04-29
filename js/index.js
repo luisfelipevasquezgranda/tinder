@@ -3,45 +3,47 @@ let isAnimating = false;
 let pullDeltax = 0; // distancia que la card se está moviendo
 let startX = 0; // posición inicial del mouse o dedo
 document.addEventListener("DOMContentLoaded", () => {
-  const button = document.querySelector(".is-remove");
-  if (button) {
-    button.addEventListener("click", () => {
+  const buttons = document.querySelectorAll("button"); // Seleccionar todos los botones
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", (e) => {
       // Deshabilitar el botón para evitar múltiples clics
       button.disabled = true;
 
       const cardsContainer = document.querySelector(".cards");
 
       // Seleccionar el último hijo que sea un <article>
-      //array.from() convierte la colección de nodos en un array
-      // y luego se invierte el orden para buscar de abajo hacia arriba
-      // y se busca el primer elemento que sea un <article>
       const actualCard = Array.from(cardsContainer?.children)
         .reverse() // Invertir el orden para buscar de abajo hacia arriba
         .find((child) => child.tagName === "ARTICLE");
 
-      if (actualCard) {
-        actualCard.style.transition = "transform 0.5s ease";
-        // Deslizar la tarjeta hacia la izquierda
-        actualCard.classList.add("go-left");
-
-        // Eliminar la tarjeta después de la animación
-        actualCard.addEventListener(
-          "transitionend",
-          () => {
-            actualCard.remove();
-          },
-          { once: true }
-        );
-      } else {
+      if (!actualCard) {
         console.log("No hay más tarjetas disponibles.");
+        return;
       }
+
+      // Determinar la dirección según la clase
+      if (e.target.classList.contains("nope")) {
+        actualCard.classList.add("go-left"); // Deslizar hacia la derecha
+      } else if (e.target.classList.contains("like")) {
+        actualCard.classList.add("go-right"); // Deslizar hacia la izquierda
+      }
+
+      // Eliminar la tarjeta después de la animación
+      actualCard.addEventListener(
+        "transitionend",
+        () => {
+          actualCard.remove();
+        },
+        { once: true }
+      );
 
       // Volver a habilitar el botón después de 1 segundo
       setTimeout(() => {
         button.disabled = false;
-      }, 500); // 1000 ms = 1 segundo
+      }, 1000); // 1000 ms = 1 segundo
     });
-  }
+  });
 });
 
 function startDrag(e) {

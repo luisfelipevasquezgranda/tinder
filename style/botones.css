@@ -1,21 +1,6 @@
 .emoji-animate {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    position: absolute; /* Necesario para posicionar el emoji dentro del contenedor */
-    will-change: transform, opacity; /* Mejora el rendimiento de la animación */
-    background: black;
-    background-position: 0px 0px;
-    background-size: 175px;
-    cursor: pointer;
-    border-radius: 50%;
-    border: 0;
-    z-index: 99999;
-    /*animacion*/
-    transform: translate(-50%, -50%); /* Centrar el emoji */
-    font-size: 48px; /* Tamaño del emoji */
-    line-height: 1; /* Asegura que no haya espacio adicional alrededor del emoji */
-    pointer-events: none; /* Evita que el emoji interfiera con los clics */
-
-    /*se mueve la imagen a conveniencia para que cada boton tenga su logo*/
+    color: red; /* Cambia el color de la "X" */
+    font-size: 40px; /* Ajusta el tamaño del emoji */
+    line-height: 1; /* Elimina espacios adicionales */
+    z-index: 9999; /* Asegúrate de que esté por encima de otros elementos */
   }

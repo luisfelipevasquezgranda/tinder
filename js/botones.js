@@ -1,5 +1,4 @@
 // Seleccionar los emojis y el contenedor
-
 const emojis = document.querySelectorAll(".emoji-list button");
 const container = document.querySelector(".emoji-container");
 
@@ -14,20 +13,22 @@ if (!emojis.length || !container) {
 // Función para manejar el clic en un emoji
 function handleEmojiClick(e) {
   // Crear un nuevo elemento para el emoji
-  const emojiEl = document.createElement("button");
+  const emojiEl = document.createElement("div");
   emojiEl.classList.add("emoji-animate");
 
-  // Obtener el emoji clicado
-  const { innerHTML } = e.target;
-  emojiEl.innerHTML = innerHTML;
+  // Obtener el emoji desde el atributo data-emoji
+  const emoji = e.target.getAttribute("data-emoji");
+  emojiEl.innerHTML = emoji;
 
   // Obtener posiciones dinámicas del botón clicado
   const { top, left, width } = e.target.getBoundingClientRect();
   const { left: containerLeft } = container.getBoundingClientRect();
 
   // Ajustar la posición inicial del emoji en el contenedor
+  emojiEl.style.position = "absolute";
   emojiEl.style.top = `${top}px`; // Centrar verticalmente
   emojiEl.style.left = `${left - containerLeft + width / 2}px`; // Centrar horizontalmente
+  emojiEl.style.transform = "translate(-50%, -50%)";
 
   // Agregar el emoji al contenedor
   container.appendChild(emojiEl);
@@ -45,7 +46,7 @@ function handleEmojiClick(e) {
       },
     ],
     {
-      duration: 1000,
+      duration: 1500,
       easing: "cubic-bezier(.47,.48,.44,.86)", // Curva de aceleración
     }
   );

@@ -61,22 +61,18 @@ header{
 .emoji-list{
   display: grid;
   /*para que se repitan 5 veces (5 botones en 1 fraccion de espacio)*/
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   /*para definir el espacio entre columnas o filas*/
-  gap: 12px; 
-  padding: 0 24px;
+  gap: 80px; 
+  padding: 0 100px;
   justify-content: center;
   align-items: center;
+  ;
   
   & button{
     /*tecnica sprite para cargar la imagen una vez y moverla a conveniencia(para mejorar rendimiento)*/
-    background: url(../img/tinder-icons.webp) no-repeat;
-    background-position: 0px 0px;
-    background-size: 175px;
+    font-size: 25px;
     cursor: pointer;
-    height: 32px;
-    width: 32px;
-    border-radius: 50%;
     border: 0;
     /*animacion*/
     
@@ -146,10 +142,12 @@ header{
       transform: translateX(0) !important;
     }
     &.go-left{
+      transition: transform 0.5s ease;
       transform: translateX(-200%) rotate(-30deg) !important;
     }
     
     &.go-right{
+      transition: transform 0.5s ease;
       transform: translateX(200%) rotate(30deg) !important;
     }
     
